@@ -21,15 +21,15 @@
 ## Screenshots
 
 <p align="center">
-  <img src="screenshots/4Kly1.jpg" width="700" alt="4Kly Downloads View">
+  <img src="screenshots/YTMac1.jpg" width="700" alt="4Kly — Downloads">
 </p>
 
 <p align="center">
-  <img src="screenshots/4Kly2.jpg" width="700" alt="4Kly Settings View">
+  <img src="screenshots/YTMac2.jpg" width="700" alt="4Kly — Settings">
 </p>
 
 <p align="center">
-  <img src="screenshots/4Kly3.jpg" width="700" alt="4Kly History View">
+  <img src="screenshots/YTMac3.jpg" width="700" alt="4Kly — History">
 </p>
 
 ---

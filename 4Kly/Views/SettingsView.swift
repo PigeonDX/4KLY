@@ -2,20 +2,16 @@
 //  SettingsView.swift
 //  4Kly
 //
-//  Settings view for configuring app preferences
-//  Implements Requirements: 8.1, 8.2, 13.2, 13.3, 7.1, 7.4, 7.5
-//
 
 import SwiftUI
 
-/// Settings view displaying download location, yt-dlp version/update controls, and about information
 struct SettingsView: View {
     @ObservedObject var viewModel: SettingsViewModel
-    
+
     var body: some View {
         Form {
-            // MARK: - Downloads Section
-            // Requirement 8.1, 8.2: Settings panel for download location configuration
+
+            // MARK: - Downloads
             Section("Downloads") {
                 HStack {
                     Text("Save to:")
@@ -29,50 +25,36 @@ struct SettingsView: View {
                     }
                 }
             }
-            
-            // MARK: - Download Engine Section
-            // Requirement 13.2, 13.3: Download engine version display and update controls
+
+            // MARK: - Download Engine
             Section("Download Engine") {
                 HStack {
-                    Text("Version:")
+                    Text("yt-dlp version:")
                     Spacer()
                     if viewModel.isCheckingForUpdates {
-                        ProgressView()
-                            .controlSize(.small)
-                            .padding(.trailing, 4)
+                        ProgressView().controlSize(.small).padding(.trailing, 4)
                     }
                     Text(viewModel.currentYtdlpVersion)
                         .foregroundColor(.secondary)
-                    
-                    if viewModel.availableYtdlpUpdate == nil && !viewModel.isCheckingForUpdates && viewModel.currentYtdlpVersion != "Checking..." && viewModel.currentYtdlpVersion != "Error" && viewModel.currentYtdlpVersion != "Unknown" {
+                    if viewModel.availableYtdlpUpdate == nil
+                        && !viewModel.isCheckingForUpdates
+                        && !["Checking...", "Error", "Unknown", "Downloading..."].contains(viewModel.currentYtdlpVersion) {
                         Image(systemName: "checkmark.circle.fill")
                             .foregroundColor(.green)
                             .font(.caption)
                     }
                 }
-                
-                if viewModel.availableYtdlpUpdate == nil && !viewModel.isCheckingForUpdates {
-                    HStack {
-                        Text("Up to date")
-                            .font(.caption)
-                            .foregroundColor(.green)
-                        Spacer()
-                    }
-                }
-                
                 Button("Check for Updates") {
                     Task { await viewModel.checkForYtdlpUpdates() }
                 }
                 .disabled(viewModel.isCheckingForUpdates || viewModel.isUpdatingYtdlp)
-                
+
                 if let update = viewModel.availableYtdlpUpdate {
                     HStack {
-                        Text("Update available: \(update.latestVersion)")
-                            .foregroundColor(.green)
+                        Text("Update available: \(update.latestVersion)").foregroundColor(.green)
                         Spacer()
                         if viewModel.isUpdatingYtdlp {
-                            ProgressView()
-                                .controlSize(.small)
+                            ProgressView().controlSize(.small)
                         } else {
                             Button("Install Update") {
                                 Task { await viewModel.installYtdlpUpdate() }
@@ -81,54 +63,110 @@ struct SettingsView: View {
                     }
                 }
             }
-            
-            // MARK: - About Section
-            // Requirement 7.1, 7.4, 7.5: Native macOS UI with app information
+
+            // MARK: - Advanced (Pro — tapping toggle shows upgrade prompt)
+            Section {
+                Toggle(isOn: Binding(
+                    get: { false },
+                    set: { _ in viewModel.showProUpgradePrompt() }
+                )) {
+                    VStack(alignment: .leading, spacing: 3) {
+                        HStack(spacing: 6) {
+                            Text("Use browser cookies")
+                            proBadge
+                        }
+                        Text("Pass cookies from Chrome, Firefox, or Brave to bypass age restrictions.")
+                            .font(.caption)
+                            .foregroundColor(.secondary)
+                    }
+                }
+            } header: {
+                Text("Advanced")
+            }
+
+            // MARK: - Subtitles (Pro — tapping toggle shows upgrade prompt)
+            Section {
+                Toggle(isOn: Binding(
+                    get: { false },
+                    set: { _ in viewModel.showProUpgradePrompt() }
+                )) {
+                    VStack(alignment: .leading, spacing: 3) {
+                        HStack(spacing: 6) {
+                            Text("Download subtitles with video")
+                            proBadge
+                        }
+                        Text("Save SRT or VTT subtitles alongside your video in any language.")
+                            .font(.caption)
+                            .foregroundColor(.secondary)
+                    }
+                }
+            } header: {
+                Text("Subtitles")
+            }
+
+            // MARK: - About
             Section("About") {
                 HStack {
                     Text("4Kly Version:")
                     Spacer()
-                    Text(appVersion)
-                        .foregroundColor(.secondary)
+                    Text(appVersion).foregroundColor(.secondary)
                 }
-                
-                Link("Visit Website",
-                     destination: URL(string: "https://4kly.com")!)
-                
-                Text("Powered by yt-dlp")
+                Link("Visit 4kly.com", destination: URL(string: "https://4kly.com")!)
+                Text("Powered by yt-dlp · MIT License")
                     .font(.caption)
                     .foregroundColor(.secondary)
             }
-            
+
             Section {
                 VStack(alignment: .leading, spacing: 4) {
-                    Text("4Kly is free and open source")
+                    Text("4Kly is free and open source.")
                         .font(.caption)
                         .foregroundColor(.secondary)
-                    Link("Support development with Premium →",
+                    Link("Upgrade to Pro for 4K, playlists, cookies & more →",
                          destination: URL(string: "https://4kly.com")!)
                         .font(.caption)
                 }
             }
-            
-            // MARK: - Error Message
+
             if let error = viewModel.errorMessage {
-                Section {
-                    Text(error)
-                        .foregroundColor(.red)
-                }
+                Section { Text(error).foregroundColor(.red) }
             }
         }
         .formStyle(.grouped)
         .navigationTitle("Settings")
         .frame(minWidth: 500, minHeight: 400)
+        .sheet(isPresented: $viewModel.showUpgradePrompt) {
+            UpgradePromptSheet(
+                promptInfo: viewModel.upgradePromptInfo,
+                onUpgrade: {
+                    viewModel.openUpgradeURL()
+                    viewModel.showUpgradePrompt = false
+                },
+                onDismiss: {
+                    viewModel.showUpgradePrompt = false
+                }
+            )
+        }
     }
-    
-    // MARK: - Private Helpers
-    
-    /// App version from Bundle.main
+
     private var appVersion: String {
         Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? "1.0.0"
+    }
+
+    private var proBadge: some View {
+        Text("PRO")
+            .font(.system(size: 9, weight: .bold))
+            .foregroundColor(.white)
+            .padding(.horizontal, 5)
+            .padding(.vertical, 2)
+            .background(
+                LinearGradient(
+                    colors: [Color(red: 0.6, green: 0.2, blue: 1.0), Color(red: 0.2, green: 0.5, blue: 1.0)],
+                    startPoint: .leading,
+                    endPoint: .trailing
+                )
+            )
+            .clipShape(Capsule())
     }
 }
 
@@ -136,9 +174,7 @@ struct SettingsView: View {
     SettingsView(
         viewModel: SettingsViewModel(
             configService: ConfigurationService(),
-            binaryUpdater: BinaryUpdater(
-                githubAPI: GitHubAPIClient()
-            )
+            binaryUpdater: BinaryUpdater(githubAPI: GitHubAPIClient())
         )
     )
 }

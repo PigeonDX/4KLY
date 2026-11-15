@@ -29,7 +29,7 @@ struct SettingsView: View {
             // MARK: - Download Engine
             Section("Download Engine") {
                 HStack {
-                    Text("yt-dlp version:")
+                    Text("Update Engine")
                     Spacer()
                     if viewModel.isCheckingForUpdates {
                         ProgressView().controlSize(.small).padding(.trailing, 4)

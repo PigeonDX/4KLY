@@ -125,6 +125,9 @@ struct SettingsView: View {
                     Link("Upgrade to Pro for 4K, playlists, cookies & more →",
                          destination: URL(string: "https://4kly.com")!)
                         .font(.caption)
+                    Text("Your purchase supports independent development.")
+                        .font(.caption)
+                        .foregroundColor(.secondary)
                 }
             }
 

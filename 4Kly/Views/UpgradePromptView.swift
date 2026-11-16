@@ -29,10 +29,9 @@ struct UpgradePromptSheet: View {
     // MARK: - Body
 
     var body: some View {
-        ZStack(alignment: .topTrailing) {
-            VStack(spacing: DesignConstants.baseSpacing * 1.25) {
-                // Header icon
-                headerIcon
+        VStack(spacing: DesignConstants.baseSpacing * 1.25) {
+            // Header icon
+            headerIcon
 
             // Title
             Text("Unlock Premium Quality")
@@ -50,7 +49,7 @@ struct UpgradePromptSheet: View {
                     .lineLimit(3)
                     .padding(.horizontal, DesignConstants.baseSpacing)
             }
-            
+
             Text("Your purchase supports independent development")
                 .font(.caption)
                 .foregroundColor(.secondary.opacity(0.7))
@@ -91,8 +90,6 @@ struct UpgradePromptSheet: View {
         }
         .padding(.horizontal, DesignConstants.baseSpacing * 1.5)
         .padding(.top, DesignConstants.baseSpacing * 1.5)
-            }
-        }
         .frame(width: 400, height: 380)
         .overlay(alignment: .topTrailing) {
             Button(action: onDismiss) {

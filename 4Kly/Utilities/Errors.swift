@@ -65,9 +65,9 @@ enum DownloadError: LocalizedError {
         case .networkFailure:
             return "Network error. Please check your internet connection and try again."
         case .rateLimited:
-            return "YouTube rate limit reached. Please wait 15-30 minutes and try again."
+            return "Too many requests — YouTube has temporarily limited downloads. Wait 15–30 minutes, or enable browser cookies in Settings to bypass this."
         case .videoUnavailable(let reason):
-            return "Video unavailable: \(reason)"
+            return reason
         case .diskSpaceExhausted:
             return "Insufficient disk space. Please free up space and try again."
         case .invalidOutputPath(let path):
@@ -87,15 +87,15 @@ enum DownloadError: LocalizedError {
         } else if stderr.contains("Unable to download webpage") {
             return "Network error. Please check your internet connection."
         } else if stderr.contains("Video unavailable") {
-            return "This video is unavailable (it may be private, deleted, or restricted)."
+            return "This video is private, deleted, or not available in your region."
         } else if stderr.contains("HTTP Error 403") {
-            return "Access denied. This video may be geo-restricted or require authentication."
+            return "Access denied — this video may be geo-restricted. Try enabling browser cookies in Settings."
         } else if stderr.contains("HTTP Error 404") {
-            return "Video not found. The URL may be incorrect or the video was removed."
+            return "Video not found — the URL may be wrong or the video was removed."
         } else if stderr.contains("No space left on device") {
             return "Insufficient disk space. Please free up space and try again."
         } else {
-            return "Download failed. Please try again or check the video URL."
+            return "Download failed. Please check the URL and try again."
         }
     }
 }

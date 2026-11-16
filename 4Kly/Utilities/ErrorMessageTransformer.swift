@@ -33,12 +33,12 @@ class ErrorMessageTransformer {
         
         // Video unavailable - Requirement 11.2
         if stderr.contains("Video unavailable") {
-            return "This video is unavailable (it may be private, deleted, or restricted)."
+            return "This video is private, deleted, or not available in your region."
         }
         
         // HTTP errors - Requirement 11.5
         if stderr.contains("HTTP Error 403") || stderr.contains("403 Forbidden") {
-            return "Access denied. This video may be geo-restricted or require authentication."
+            return "Access denied — this video may be geo-restricted. Try enabling browser cookies in Settings."
         }
         
         if stderr.contains("HTTP Error 404") || stderr.contains("404 Not Found") {
@@ -46,7 +46,7 @@ class ErrorMessageTransformer {
         }
         
         if stderr.contains("HTTP Error 429") || stderr.contains("429 Too Many Requests") {
-            return "Too many requests. Please wait a moment and try again."
+            return "Too many requests — YouTube has temporarily limited downloads. Wait 15–30 minutes, or enable browser cookies in Settings."
         }
         
         if stderr.contains("HTTP Error 500") || stderr.contains("500 Internal Server Error") {
@@ -100,7 +100,7 @@ class ErrorMessageTransformer {
         // Generic fallback - Requirement 11.5
         // Return a generic message without exposing raw technical details
         if !stderr.isEmpty {
-            return "Download failed. Please verify the URL and try again."
+            return "Download failed. Please check the URL and try again."
         }
         
         // Empty stderr

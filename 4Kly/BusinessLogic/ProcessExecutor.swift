@@ -384,11 +384,11 @@ actor ProcessExecutor {
         } else if lowercased.contains("unable to download webpage") {
             return .networkFailure
         } else if lowercased.contains("video unavailable") {
-            return .videoUnavailable(reason: "Video unavailable or private")
+            return .videoUnavailable(reason: "This video is private, deleted, or not available in your region.")
         } else if lowercased.contains("http error 403") {
-            return .videoUnavailable(reason: "Access denied (geo-restricted or authentication required)")
+            return .videoUnavailable(reason: "Access denied — this video may be geo-restricted. Try enabling browser cookies in Settings.")
         } else if lowercased.contains("http error 404") {
-            return .videoUnavailable(reason: "Video not found")
+            return .videoUnavailable(reason: "Video not found — the URL may be wrong or the video was removed.")
         } else if lowercased.contains("no space left on device") {
             return .diskSpaceExhausted
         } else {

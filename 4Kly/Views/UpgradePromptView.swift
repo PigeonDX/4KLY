@@ -29,9 +29,10 @@ struct UpgradePromptSheet: View {
     // MARK: - Body
 
     var body: some View {
-        VStack(spacing: DesignConstants.baseSpacing * 1.25) {
-            // Header icon
-            headerIcon
+        ZStack(alignment: .topTrailing) {
+            VStack(spacing: DesignConstants.baseSpacing * 1.25) {
+                // Header icon
+                headerIcon
 
             // Title
             Text("Unlock Premium Quality")
@@ -90,7 +91,22 @@ struct UpgradePromptSheet: View {
         }
         .padding(.horizontal, DesignConstants.baseSpacing * 1.5)
         .padding(.top, DesignConstants.baseSpacing * 1.5)
+            }
+        }
         .frame(width: 400, height: 380)
+        .overlay(alignment: .topTrailing) {
+            Button(action: onDismiss) {
+                Image(systemName: "xmark")
+                    .font(.system(size: 12, weight: .semibold))
+                    .foregroundColor(.secondary)
+                    .frame(width: 28, height: 28)
+                    .background(Color.primary.opacity(0.08))
+                    .clipShape(Circle())
+            }
+            .buttonStyle(.plain)
+            .padding(12)
+            .accessibilityLabel("Close")
+        }
     }
 
     // MARK: - Subviews

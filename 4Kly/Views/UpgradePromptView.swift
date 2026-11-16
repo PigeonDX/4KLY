@@ -2,190 +2,113 @@
 //  UpgradePromptView.swift
 //  4Kly
 //
-//  Premium upgrade prompt sheet with feature comparison and gradient CTA.
-//  Implements Requirements: 14.1, 14.2, 14.3, 14.4, 14.5, 14.6
-//
 
 import SwiftUI
 
-/// A standalone sheet view presenting the premium upgrade prompt.
-///
-/// Replaces the previous alert-based `UpgradePromptModifier` with a visually rich
-/// sheet that includes a feature comparison, gradient call-to-action button, and
-/// a secondary dismiss option. Designed for `.sheet` presentation from MainView.
 struct UpgradePromptSheet: View {
 
-    // MARK: - Properties
-
-    /// The upgrade prompt information containing message and optional URL
     let promptInfo: UpgradePromptInfo?
-
-    /// Action invoked when the user taps "Try Premium"
     let onUpgrade: () -> Void
-
-    /// Action invoked when the user taps "Maybe Later"
     let onDismiss: () -> Void
 
-    // MARK: - Body
-
     var body: some View {
-        VStack(spacing: DesignConstants.baseSpacing * 1.25) {
-            // Header icon
-            headerIcon
+        VStack(spacing: 20) {
 
-            // Title
+            // Crown icon
+            Image(systemName: "crown.fill")
+                .font(.system(size: 40))
+                .foregroundStyle(
+                    LinearGradient(
+                        colors: [Color.yellow, Color.orange],
+                        startPoint: .topLeading,
+                        endPoint: .bottomTrailing
+                    )
+                )
+                .padding(.top, 24)
+
             Text("Unlock Premium Quality")
                 .font(.title2.bold())
 
-            // Feature comparison
-            featureComparison
+            // Two clickable tier cards
+            HStack(spacing: 12) {
 
-            // Message from promptInfo
-            if let message = promptInfo?.message {
-                Text(message)
-                    .font(.callout)
-                    .foregroundColor(.secondary)
-                    .multilineTextAlignment(.center)
-                    .lineLimit(3)
-                    .padding(.horizontal, DesignConstants.baseSpacing)
-            }
-
-            Text("Your purchase supports independent development")
-                .font(.caption)
-                .foregroundColor(.secondary.opacity(0.7))
-                .multilineTextAlignment(.center)
-
-            Spacer(minLength: DesignConstants.relatedSpacing)
-
-            // CTA buttons
-            VStack(spacing: DesignConstants.relatedSpacing + 4) {
-                // Try Premium button
-                Button(action: onUpgrade) {
-                    Text("Try Premium")
-                        .font(.headline)
-                        .foregroundColor(.white)
-                        .frame(maxWidth: .infinity)
-                        .padding(.vertical, 10)
-                        .background(
-                            RoundedRectangle(cornerRadius: DesignConstants.cornerRadius)
-                                .fill(DesignConstants.premiumGradient)
-                        )
-                }
-                .buttonStyle(.plain)
-                .controlSize(.large)
-                .accessibilityLabel("Try Premium")
-                .accessibilityHint("Opens the premium upgrade page")
-
-                // Maybe Later dismiss
+                // Free card — clicking closes popup
                 Button(action: onDismiss) {
-                    Text("Maybe Later")
-                        .font(.subheadline)
-                        .foregroundColor(.secondary)
+                    VStack(spacing: 8) {
+                        Image(systemName: "play.rectangle")
+                            .font(.title3)
+                            .foregroundColor(.secondary)
+                        Text("Free")
+                            .font(.headline)
+                            .foregroundColor(.primary)
+                        Text("Up to 720p")
+                            .font(.caption)
+                            .foregroundColor(.secondary)
+                        Text("Continue Free →")
+                            .font(.caption2)
+                            .foregroundColor(.secondary)
+                            .padding(.top, 2)
+                    }
+                    .frame(maxWidth: .infinity)
+                    .padding(.vertical, 16)
+                    .background(
+                        RoundedRectangle(cornerRadius: 10)
+                            .fill(Color.primary.opacity(0.05))
+                            .overlay(
+                                RoundedRectangle(cornerRadius: 10)
+                                    .stroke(Color.primary.opacity(0.1), lineWidth: 1)
+                            )
+                    )
                 }
                 .buttonStyle(.plain)
-                .accessibilityLabel("Maybe Later")
-                .accessibilityHint("Dismisses the upgrade prompt")
+                .accessibilityLabel("Continue with free version")
+
+                // Premium card — clicking opens upgrade URL
+                Button(action: onUpgrade) {
+                    VStack(spacing: 8) {
+                        Image(systemName: "sparkles")
+                            .font(.title3)
+                            .foregroundColor(.purple)
+                        Text("Premium")
+                            .font(.headline)
+                            .foregroundColor(.purple)
+                        Text("Up to 4K & 8K")
+                            .font(.caption)
+                            .foregroundColor(.secondary)
+                        Text("Get Pro — $19.99 →")
+                            .font(.caption2)
+                            .foregroundColor(.purple)
+                            .padding(.top, 2)
+                    }
+                    .frame(maxWidth: .infinity)
+                    .padding(.vertical, 16)
+                    .background(
+                        RoundedRectangle(cornerRadius: 10)
+                            .fill(Color.purple.opacity(0.08))
+                            .overlay(
+                                RoundedRectangle(cornerRadius: 10)
+                                    .stroke(Color.purple.opacity(0.3), lineWidth: 1.5)
+                            )
+                    )
+                }
+                .buttonStyle(.plain)
+                .accessibilityLabel("Upgrade to Premium")
             }
-            .padding(.bottom, DesignConstants.baseSpacing)
+            .padding(.horizontal, 20)
+
+            Text("One-time payment · No subscription · Lifetime access")
+                .font(.caption2)
+                .foregroundColor(.secondary.opacity(0.6))
+                .multilineTextAlignment(.center)
+                .padding(.bottom, 20)
         }
-        .padding(.horizontal, DesignConstants.baseSpacing * 1.5)
-        .padding(.top, DesignConstants.baseSpacing * 1.5)
-        .frame(width: 400, height: 380)
-        .overlay(alignment: .topTrailing) {
-            Button(action: onDismiss) {
-                Image(systemName: "xmark")
-                    .font(.system(size: 12, weight: .semibold))
-                    .foregroundColor(.secondary)
-                    .frame(width: 28, height: 28)
-                    .background(Color.primary.opacity(0.08))
-                    .clipShape(Circle())
-            }
-            .buttonStyle(.plain)
-            .padding(12)
-            .accessibilityLabel("Close")
-        }
-    }
-
-    // MARK: - Subviews
-
-    /// Crown/sparkles icon header
-    private var headerIcon: some View {
-        Image(systemName: "crown.fill")
-            .font(.system(size: 40))
-            .foregroundStyle(
-                LinearGradient(
-                    colors: [Color.yellow, Color.orange],
-                    startPoint: .topLeading,
-                    endPoint: .bottomTrailing
-                )
-            )
-            .accessibilityHidden(true)
-    }
-
-    /// Two-column feature comparison (Free vs Premium)
-    private var featureComparison: some View {
-        HStack(spacing: DesignConstants.baseSpacing) {
-            // Free tier
-            featureColumn(
-                tier: "Free",
-                quality: "Up to 720p",
-                icon: "play.rectangle",
-                color: .secondary
-            )
-
-            // Divider
-            Rectangle()
-                .fill(Color.primary.opacity(0.1))
-                .frame(width: 1)
-                .padding(.vertical, DesignConstants.relatedSpacing)
-
-            // Premium tier
-            featureColumn(
-                tier: "Premium",
-                quality: "Up to 4K",
-                icon: "sparkles",
-                color: .purple
-            )
-        }
-        .padding(DesignConstants.baseSpacing)
-        .background(
-            RoundedRectangle(cornerRadius: DesignConstants.cornerRadius)
-                .fill(Color.primary.opacity(0.04))
-        )
-        .padding(.horizontal, DesignConstants.relatedSpacing)
-    }
-
-    /// A single tier column in the feature comparison
-    private func featureColumn(tier: String, quality: String, icon: String, color: Color) -> some View {
-        VStack(spacing: DesignConstants.relatedSpacing) {
-            Image(systemName: icon)
-                .font(.title3)
-                .foregroundColor(color)
-
-            Text(tier)
-                .font(.headline)
-                .foregroundColor(color == .secondary ? .primary : color)
-
-            Text(quality)
-                .font(.caption)
-                .foregroundColor(.secondary)
-        }
-        .frame(maxWidth: .infinity)
+        .frame(width: 380, height: 340)
     }
 }
 
-// MARK: - View Extension (Legacy Support)
+// MARK: - View Extension
 
 extension View {
-    /// Presents an upgrade prompt sheet when a premium quality feature is blocked.
-    ///
-    /// This replaces the previous alert-based modifier with a sheet presentation.
-    ///
-    /// - Parameters:
-    ///   - isPresented: Binding to control sheet visibility
-    ///   - promptInfo: The upgrade prompt information (message and optional URL)
-    ///   - onUpgrade: Action called when user taps "Try Premium"
-    /// - Returns: A view with the upgrade prompt sheet attached
     func upgradePrompt(
         isPresented: Binding<Bool>,
         promptInfo: UpgradePromptInfo?,
@@ -201,39 +124,13 @@ extension View {
     }
 }
 
-// MARK: - Previews
-
-#Preview("Upgrade Prompt Sheet - Light") {
+#Preview {
     UpgradePromptSheet(
         promptInfo: UpgradePromptInfo(
-            message: "Try our Premium version to download in high quality",
-            upgradeURL: URL(string: "https://example.com/upgrade")
+            message: "Upgrade to Premium for 4K downloads.",
+            upgradeURL: URL(string: "https://4kly.com")
         ),
-        onUpgrade: { print("Upgrade tapped") },
-        onDismiss: { print("Dismiss tapped") }
-    )
-    .environment(\.colorScheme, .light)
-}
-
-#Preview("Upgrade Prompt Sheet - Dark") {
-    UpgradePromptSheet(
-        promptInfo: UpgradePromptInfo(
-            message: "Try our Premium version to download in high quality",
-            upgradeURL: URL(string: "https://example.com/upgrade")
-        ),
-        onUpgrade: { print("Upgrade tapped") },
-        onDismiss: { print("Dismiss tapped") }
-    )
-    .environment(\.colorScheme, .dark)
-}
-
-#Preview("Upgrade Prompt Sheet - No URL") {
-    UpgradePromptSheet(
-        promptInfo: UpgradePromptInfo(
-            message: "Premium features are not yet available in your region.",
-            upgradeURL: nil
-        ),
-        onUpgrade: { print("Upgrade tapped") },
-        onDismiss: { print("Dismiss tapped") }
+        onUpgrade: {},
+        onDismiss: {}
     )
 }

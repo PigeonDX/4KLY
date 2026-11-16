@@ -96,6 +96,11 @@ struct UpgradePromptSheet: View {
             }
             .padding(.horizontal, 20)
 
+            Text("Your purchase supports independent development")
+                .font(.caption)
+                .foregroundColor(.secondary.opacity(0.7))
+                .multilineTextAlignment(.center)
+
             Text("One-time payment · No subscription · Lifetime access")
                 .font(.caption2)
                 .foregroundColor(.secondary.opacity(0.6))

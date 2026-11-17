@@ -125,11 +125,15 @@ struct DownloadListView: View {
     
         private var emptyStateView: some View {
         VStack(spacing: 6) {
-            // Platform logos only
+            Image(systemName: "arrow.down.circle")
+                .font(.system(size: DesignConstants.emptyStateIconSize))
+                .foregroundColor(.secondary)
+            // Platform logos
             supportedPlatformsView
+                .padding(.top, 20)
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
-        .accessibilityLabel("Supported download sites")
+        .accessibilityLabel("No downloads in progress")
     }
 
 

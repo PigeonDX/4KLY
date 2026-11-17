@@ -128,11 +128,15 @@ struct DownloadListView: View {
             Image(systemName: "arrow.down.circle")
                 .font(.system(size: DesignConstants.emptyStateIconSize))
                 .foregroundColor(.secondary)
+            Text("Paste a video URL above to start downloading")
+                .font(.subheadline)
+                .foregroundColor(.secondary.opacity(0.7))
             // Platform logos
             supportedPlatformsView
                 .padding(.top, 20)
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
+        .accessibilityElement(children: .combine)
         .accessibilityLabel("No downloads in progress")
     }
 

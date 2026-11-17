@@ -123,30 +123,16 @@ struct DownloadListView: View {
     
     // MARK: - Empty States
     
-    private var emptyStateView: some View {
+        private var emptyStateView: some View {
         VStack(spacing: 6) {
-            Image(systemName: "arrow.down.circle")
-                .font(.system(size: DesignConstants.emptyStateIconSize))
-                .foregroundColor(.secondary)
-            
-            Text("No downloads in progress")
-                .font(.headline)
-                .foregroundColor(.secondary)
-            
-            Text("Paste a video URL above to start downloading")
-                .font(.subheadline)
-                .foregroundColor(.secondary.opacity(0.7))
-            
-            // Platform logos
+            // Platform logos only
             supportedPlatformsView
-                .padding(.top, 20)
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
-        .accessibilityElement(children: .combine)
-        .accessibilityLabel("No downloads in progress")
+        .accessibilityLabel("Supported download sites")
     }
-    
-    /// Row of supported platform logos
+
+
     private var supportedPlatformsView: some View {
         VStack(spacing: 16) {
             // First row

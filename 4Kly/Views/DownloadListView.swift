@@ -132,8 +132,13 @@ struct DownloadListView: View {
                 .font(.subheadline)
                 .foregroundColor(.secondary.opacity(0.7))
             // Platform logos
-            supportedPlatformsView
-                .padding(.top, 20)
+            VStack(spacing: 10) {
+                Text("Also supports 1000+ sites")
+                    .font(.caption)
+                    .foregroundColor(.secondary.opacity(0.5))
+                supportedPlatformsView
+            }
+            .padding(.top, 20)
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .accessibilityElement(children: .combine)
@@ -191,10 +196,15 @@ struct DownloadListView: View {
             }
             .padding(.horizontal, 4)
 
-            // Always show supported platforms at the bottom
-            supportedPlatformsView
-                .padding(.top, 24)
-                .padding(.bottom, 8)
+            // Supported platforms strip — always visible below downloads
+            VStack(spacing: 10) {
+                Text("Also supports 1000+ sites")
+                    .font(.caption)
+                    .foregroundColor(.secondary.opacity(0.5))
+                supportedPlatformsView
+            }
+            .padding(.top, 24)
+            .padding(.bottom, 8)
         }
         .animation(.spring(duration: DesignConstants.animationDuration), value: filteredDownloads.count)
         .accessibilityLabel("Downloads list")

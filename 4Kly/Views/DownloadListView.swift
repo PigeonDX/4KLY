@@ -197,10 +197,13 @@ struct DownloadListView: View {
 
             // Supported platforms strip — always visible below downloads
             VStack(spacing: 10) {
+                Text("Works with 1,000+ sites")
+                    .font(.caption)
+                    .foregroundColor(.secondary.opacity(0.45))
                 supportedPlatformsView
                 Text("+ 1,000 more supported sites")
-                    .font(.caption)
-                    .foregroundColor(.secondary.opacity(0.5))
+                    .font(.caption2)
+                    .foregroundColor(.secondary.opacity(0.3))
             }
             .padding(.top, 24)
             .padding(.bottom, 8)

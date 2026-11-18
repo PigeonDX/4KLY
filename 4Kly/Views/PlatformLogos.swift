@@ -111,26 +111,31 @@ struct VimeoLogo: View {
     }
 }
 
-// MARK: - TikTok Logo (Music note with cyan/pink offset)
+// MARK: - TikTok Logo (Black circle with music note)
 struct TikTokLogo: View {
     var body: some View {
         ZStack {
+            // Black background
+            Circle()
+                .fill(Color.black)
+                .frame(width: 32, height: 32)
+
             // Note shape - cyan offset
             TikTokNoteShape()
                 .fill(Color(red: 0.0, green: 0.96, blue: 0.88))
-                .frame(width: 22, height: 26)
-                .offset(x: -2, y: -1)
-            
+                .frame(width: 16, height: 20)
+                .offset(x: -1.5, y: -1)
+
             // Note shape - pink offset
             TikTokNoteShape()
                 .fill(Color(red: 1.0, green: 0.0, blue: 0.31))
-                .frame(width: 22, height: 26)
-                .offset(x: 2, y: 1)
-            
-            // Main note - white/black
+                .frame(width: 16, height: 20)
+                .offset(x: 1.5, y: 1)
+
+            // Main note - white
             TikTokNoteShape()
                 .fill(Color.white)
-                .frame(width: 22, height: 26)
+                .frame(width: 16, height: 20)
         }
         .frame(width: 42, height: 30)
         .help("TikTok")

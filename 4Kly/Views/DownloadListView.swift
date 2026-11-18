@@ -125,6 +125,7 @@ struct DownloadListView: View {
     
         private var emptyStateView: some View {
         VStack(spacing: 6) {
+            Spacer()
             Image(systemName: "arrow.down.circle")
                 .font(.system(size: DesignConstants.emptyStateIconSize))
                 .foregroundColor(.secondary)
@@ -139,6 +140,7 @@ struct DownloadListView: View {
                 supportedPlatformsView
             }
             .padding(.top, 20)
+            Spacer()
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .accessibilityElement(children: .combine)

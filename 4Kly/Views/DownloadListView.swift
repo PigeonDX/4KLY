@@ -132,15 +132,18 @@ struct DownloadListView: View {
             Text("Paste a video URL above to start downloading")
                 .font(.subheadline)
                 .foregroundColor(.secondary.opacity(0.7))
-            // Platform logos
+            Spacer()
+            // Platform logos — same layout as active state
             VStack(spacing: 10) {
+                Text("Works with 1,000+ sites")
+                    .font(.caption)
+                    .foregroundColor(.secondary.opacity(0.45))
                 supportedPlatformsView
                 Text("+ 1,000 more supported sites")
-                    .font(.caption)
-                    .foregroundColor(.secondary.opacity(0.5))
+                    .font(.caption2)
+                    .foregroundColor(.secondary.opacity(0.3))
             }
-            .padding(.top, 20)
-            Spacer()
+            .padding(.bottom, 16)
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .accessibilityElement(children: .combine)

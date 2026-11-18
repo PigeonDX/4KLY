@@ -133,15 +133,12 @@ struct DownloadListView: View {
                 .font(.subheadline)
                 .foregroundColor(.secondary.opacity(0.7))
             Spacer()
-            // Platform logos — same layout as active state
+            // Platform logos
             VStack(spacing: 10) {
-                Text("Works with 1,000+ sites")
-                    .font(.caption)
-                    .foregroundColor(.secondary.opacity(0.45))
                 supportedPlatformsView
                 Text("+ 1,000 more supported sites")
                     .font(.caption2)
-                    .foregroundColor(.secondary.opacity(0.3))
+                    .foregroundColor(.secondary.opacity(0.4))
             }
             .padding(.bottom, 16)
         }
@@ -200,13 +197,10 @@ struct DownloadListView: View {
 
             // Supported platforms strip — always visible below downloads
             VStack(spacing: 10) {
-                Text("Works with 1,000+ sites")
-                    .font(.caption)
-                    .foregroundColor(.secondary.opacity(0.45))
                 supportedPlatformsView
                 Text("+ 1,000 more supported sites")
                     .font(.caption2)
-                    .foregroundColor(.secondary.opacity(0.3))
+                    .foregroundColor(.secondary.opacity(0.4))
             }
             .padding(.top, 24)
             .padding(.bottom, 8)

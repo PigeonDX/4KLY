@@ -123,19 +123,19 @@ struct TikTokLogo: View {
             // Note shape - cyan offset
             TikTokNoteShape()
                 .fill(Color(red: 0.0, green: 0.96, blue: 0.88))
-                .frame(width: 16, height: 20)
-                .offset(x: -1.5, y: -1)
+                .frame(width: 20, height: 24)
+                .offset(x: -2, y: -1)
 
             // Note shape - pink offset
             TikTokNoteShape()
                 .fill(Color(red: 1.0, green: 0.0, blue: 0.31))
-                .frame(width: 16, height: 20)
-                .offset(x: 1.5, y: 1)
+                .frame(width: 20, height: 24)
+                .offset(x: 2, y: 1)
 
             // Main note - white
             TikTokNoteShape()
                 .fill(Color.white)
-                .frame(width: 16, height: 20)
+                .frame(width: 20, height: 24)
         }
         .frame(width: 42, height: 30)
         .help("TikTok")

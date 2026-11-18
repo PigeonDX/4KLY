@@ -135,7 +135,7 @@ struct DownloadListView: View {
             // Platform logos
             VStack(spacing: 10) {
                 supportedPlatformsView
-                Text("+ 1000 more sites")
+                Text("+ 1,000 more supported sites")
                     .font(.caption)
                     .foregroundColor(.secondary.opacity(0.5))
             }
@@ -168,10 +168,7 @@ struct DownloadListView: View {
                 RedditLogo()
             }
             
-            Text("+ more sites")
-                .font(.caption2)
-                .foregroundColor(.secondary.opacity(0.4))
-                .padding(.top, 8)
+
         }
     }
     
@@ -201,7 +198,7 @@ struct DownloadListView: View {
             // Supported platforms strip — always visible below downloads
             VStack(spacing: 10) {
                 supportedPlatformsView
-                Text("+ 1000 more sites")
+                Text("+ 1,000 more supported sites")
                     .font(.caption)
                     .foregroundColor(.secondary.opacity(0.5))
             }

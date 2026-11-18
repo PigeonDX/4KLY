@@ -11,13 +11,6 @@ struct UpgradePromptSheet: View {
     let onUpgrade: () -> Void
     let onDismiss: () -> Void
 
-    // MARK: - License key state
-    @State private var showKeyField: Bool = false
-    @State private var licenseKeyInput: String = ""
-    @State private var isActivating: Bool = false
-    @State private var activationError: String?
-    @State private var activated: Bool = false
-
     var body: some View {
         VStack(spacing: 20) {
 
@@ -113,105 +106,13 @@ struct UpgradePromptSheet: View {
                 .foregroundColor(.secondary.opacity(0.6))
                 .multilineTextAlignment(.center)
 
-            // ── Already have a key? ──────────────────────────────────────
-            if showKeyField {
-                VStack(spacing: 8) {
-                    HStack(spacing: 8) {
-                        TextField("4KLY-XXXX-XXXX-XXXX-XXXX", text: $licenseKeyInput)
-                            .textFieldStyle(.roundedBorder)
-                            .font(.system(.body, design: .monospaced))
-                            .autocorrectionDisabled()
-                            .frame(maxWidth: .infinity)
-
-                        Button(action: activateKey) {
-                            if isActivating {
-                                ProgressView().controlSize(.small)
-                            } else {
-                                Text("Activate")
-                                    .font(.system(size: 13, weight: .semibold))
-                            }
-                        }
-                        .buttonStyle(.borderedProminent)
-                        .disabled(licenseKeyInput.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty || isActivating)
-                    }
-
-                    if let error = activationError {
-                        Text(error)
-                            .font(.caption)
-                            .foregroundColor(.red)
-                            .multilineTextAlignment(.center)
-                    }
-
-                    if activated {
-                        HStack(spacing: 4) {
-                            Image(systemName: "checkmark.circle.fill")
-                                .foregroundColor(.green)
-                            Text("Activated! Restart the app to apply.")
-                                .font(.caption)
-                                .foregroundColor(.green)
-                        }
-                    }
-                }
-                .padding(.horizontal, 20)
-                .transition(.opacity.combined(with: .move(edge: .top)))
-            } else {
-                Button(action: {
-                    withAnimation(.easeInOut(duration: 0.2)) { showKeyField = true }
-                }) {
-                    Text("Already have a key?")
-                        .font(.subheadline)
-                        .foregroundColor(.blue)
-                }
-                .buttonStyle(.plain)
-            }
-
             Spacer(minLength: 4)
         }
-        .frame(width: 380, height: showKeyField ? 420 : 360)
-        .animation(.easeInOut(duration: 0.2), value: showKeyField)
+        .frame(width: 380, height: 360)
+        
         .padding(.bottom, 20)
     }
 
-    // MARK: - Activate license key
-
-    private func activateKey() {
-        let key = licenseKeyInput.trimmingCharacters(in: .whitespacesAndNewlines).uppercased()
-        guard !key.isEmpty else { return }
-
-        isActivating = true
-        activationError = nil
-
-        Task {
-            guard let url = URL(string: "https://4kly.com/api/activate") else { return }
-            var request = URLRequest(url: url)
-            request.httpMethod = "POST"
-            request.setValue("application/json", forHTTPHeaderField: "Content-Type")
-            request.httpBody = try? JSONSerialization.data(withJSONObject: ["key": key])
-            request.timeoutInterval = 15
-
-            do {
-                let (data, response) = try await URLSession.shared.data(for: request)
-                let status = (response as? HTTPURLResponse)?.statusCode ?? 0
-
-                if status == 200 {
-                    // Store license locally so the free app knows user has upgraded
-                    UserDefaults.standard.set(key, forKey: "com.4kly.license.key")
-                    UserDefaults.standard.set(true, forKey: "com.4kly.license.activated")
-                    activated = true
-                    // Brief delay to show success, then close
-                    try? await Task.sleep(for: .seconds(1.2))
-                    onDismiss()
-                } else {
-                    let json = try? JSONSerialization.jsonObject(with: data) as? [String: String]
-                    activationError = json?["error"] ?? "Invalid license key. Please check and try again."
-                }
-            } catch {
-                activationError = "Network error. Please check your connection."
-            }
-
-            isActivating = false
-        }
-    }
 }
 
 // MARK: - View Extension

@@ -124,15 +124,19 @@ struct DownloadListView: View {
     // MARK: - Empty States
     
         private var emptyStateView: some View {
-        VStack(spacing: 6) {
+        VStack(spacing: 20) {
             Spacer()
-            Image(systemName: "arrow.down.circle")
-                .font(.system(size: DesignConstants.emptyStateIconSize))
-                .foregroundColor(.secondary)
-            Text("Paste a video URL above to start downloading")
-                .font(.subheadline)
-                .foregroundColor(.secondary.opacity(0.7))
-            Spacer()
+            
+            // Icon and text
+            VStack(spacing: 6) {
+                Image(systemName: "arrow.down.circle")
+                    .font(.system(size: DesignConstants.emptyStateIconSize))
+                    .foregroundColor(.secondary)
+                Text("Paste a video URL above to start downloading")
+                    .font(.subheadline)
+                    .foregroundColor(.secondary.opacity(0.7))
+            }
+            
             // Platform logos
             VStack(spacing: 10) {
                 supportedPlatformsView
@@ -140,7 +144,8 @@ struct DownloadListView: View {
                     .font(.caption2)
                     .foregroundColor(.secondary.opacity(0.4))
             }
-            .padding(.bottom, 16)
+            
+            Spacer()
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .accessibilityElement(children: .combine)

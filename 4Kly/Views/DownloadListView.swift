@@ -190,6 +190,11 @@ struct DownloadListView: View {
                 }
             }
             .padding(.horizontal, 4)
+
+            // Always show supported platforms at the bottom
+            supportedPlatformsView
+                .padding(.top, 24)
+                .padding(.bottom, 8)
         }
         .animation(.spring(duration: DesignConstants.animationDuration), value: filteredDownloads.count)
         .accessibilityLabel("Downloads list")

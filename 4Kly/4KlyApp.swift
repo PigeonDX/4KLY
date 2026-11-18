@@ -28,6 +28,9 @@ class AppDelegate: NSObject, NSApplicationDelegate, ObservableObject {
     @Published var binaryError: String?
     
     func applicationDidFinishLaunching(_ notification: Notification) {
+        // Silent anonymous install/launch ping — no personal data
+        PingService.pingOnLaunch()
+
         // Ensure yt-dlp binary exists on launch
         // Validates Requirements: 3.1, 3.2
         Task { @MainActor in

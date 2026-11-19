@@ -140,7 +140,7 @@ struct DownloadListView: View {
             // Platform logos
             VStack(spacing: 10) {
                 supportedPlatformsView
-                Text("+ 1,000 more supported sites")
+                Text("+ more sites")
                     .font(.caption2)
                     .foregroundColor(.secondary.opacity(0.4))
             }
@@ -202,8 +202,11 @@ struct DownloadListView: View {
 
             // Supported platforms strip — always visible below downloads
             VStack(spacing: 10) {
+                Text("Paste a video URL above to start downloading")
+                    .font(.subheadline)
+                    .foregroundColor(.secondary.opacity(0.7))
                 supportedPlatformsView
-                Text("+ 1,000 more supported sites")
+                Text("+ more sites")
                     .font(.caption2)
                     .foregroundColor(.secondary.opacity(0.4))
             }

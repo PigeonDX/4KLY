@@ -64,5 +64,3 @@ ExportOptions.plist
 # Local workspace file - references local paths not relevant to others
 *.code-workspace
 
-# Screenshots
-screenshots/

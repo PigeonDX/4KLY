@@ -75,7 +75,7 @@ struct UpgradePromptSheet: View {
                         Text("Up to 4K & 8K")
                             .font(.caption)
                             .foregroundColor(.secondary)
-                        Text("Get Pro — $19.99 →")
+                        Text("Get Pro →")
                             .font(.caption2)
                             .foregroundColor(.purple)
                             .padding(.top, 2)

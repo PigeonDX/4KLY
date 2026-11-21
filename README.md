@@ -10,7 +10,7 @@
   <img src="https://img.shields.io/badge/macOS-14%2B-blue?logo=apple" alt="macOS 14+">
   <img src="https://img.shields.io/badge/Swift-5.9-orange?logo=swift" alt="Swift">
   <img src="https://img.shields.io/badge/License-MIT-green" alt="MIT License">
-  <img src="https://img.shields.io/github/v/release/tpjuic/4KLY?color=brightgreen" alt="Release">
+  <img src="https://img.shields.io/github/v/release/PigeonDX/4KLY?color=brightgreen" alt="Release">
 </p>
 
 ---
@@ -18,26 +18,24 @@
 ## ⬇️ Download — No Setup Required
 
 <p align="center">
-  <a href="https://github.com/tpjuic/4KLY/releases/latest"><strong>→ Download 4Kly Free (.DMG)</strong></a><br>
-  macOS 14+ · Apple Notarized · Zero Adware
+  <a href="https://github.com/PigeonDX/4KLY/releases/latest"><strong>→ Download 4Kly Free (.DMG)</strong></a><br>
+  macOS 14+ · Zero Adware
 </p>
 
 Just download, open the DMG, drag to Applications. Done.
-
-> **First launch:** macOS may block the app. Go to **System Settings → Privacy & Security** → scroll down → click **"Open Anyway"** next to 4Kly.
 
 ---
 
 ## Screenshots
 
 <p align="center">
-  <img src="screenshots/YTMac1.jpg" width="700" alt="4Kly — Downloads">
+  <img src="screenshots/4kly.jpg" width="700" alt="4Kly — Downloads">
 </p>
 <p align="center">
-  <img src="screenshots/YTMac2.jpg" width="700" alt="4Kly — Settings">
+  <img src="screenshots/4kly1.jpg" width="700" alt="4Kly — Settings">
 </p>
 <p align="center">
-  <img src="screenshots/YTMac3.jpg" width="700" alt="4Kly — History">
+  <img src="screenshots/4kly2.jpg" width="700" alt="4Kly — History">
 </p>
 
 ---
@@ -94,7 +92,7 @@ Your purchase supports independent development.
 > The DMG download above is easier and already notarized. Only build from source if you want to modify the code.
 
 ```bash
-git clone https://github.com/tpjuic/4KLY.git
+git clone https://github.com/PigeonDX/4KLY.git
 cd 4KLY
 open 4Kly.xcodeproj
 # Hit ⌘R in Xcode to build and run
